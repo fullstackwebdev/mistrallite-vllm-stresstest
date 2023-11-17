@@ -1,0 +1,1 @@
+python -m vllm.entrypoints.openai.api_server --quantization awq --model  ~/models/OpenHermes-2.5-Mistral-7B-16k-AWQ --dtype half --gpu-memory-utilization .95 --max-model-len 8192 --port 6000 --served-model-name gpt-3.5-turbo

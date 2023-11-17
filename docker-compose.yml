@@ -1,0 +1,26 @@
+version: '3.8'  # Using version 3.8 for compatibility with the latest features
+
+services:
+  vllm-service:
+    image: vllm-openai:latest  # Uses the built Docker image
+    runtime: nvidia  # Specifies the use of NVIDIA runtime
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    ports:
+      - "6000:6000"  # Maps port 6000 on the host to port 6000 on the container
+    volumes:
+      - /home/fullstack/models:/models  # Mounts the specified directory
+    # environment:
+    #   - QUANTIZATION=awq
+    #   - MODEL=/models/OpenHermes-2.5-Mistral-7B-16k-AWQ
+    #   - DTYPE=half
+    #   - GPU_MEMORY_UTILIZATION=.95
+    #   - MAX_MODEL_LEN=8192
+    #   - PORT=6000
+    #   - SERVED_MODEL_NAME=gpt-3.5-turbo
+    command: ["--quantization", "awq", "--model", "/models/OpenHermes-2.5-Mistral-7B-16k-AWQ", "--dtype", "half", "--gpu-memory-utilization", ".95", "--max-model-len", "8192", "--port", "6000", "--served-model-name", "gpt-3.5-turbo"]
